@@ -40,14 +40,25 @@ def handle_player_move(data):
 
     emit('update_board', {'board': board}, broadcast=True)
 
+# def computer_move():
+#     best_move = game_logic.minimax(board, 'O')
+#     if best_move is not None:
+#         board[best_move] = 'O'
+#         if game_logic.check_winner(board):
+#             emit('game_over', {'winner': 'O'}, broadcast=True)
+#         elif '' not in board:
+#             emit('game_over', {'winner': 'Empate'}, broadcast=True)
+
 def computer_move():
-    best_move = game_logic.minimax(board, 'O')
+    best_move = game_logic.best_move(board, 'O')
     if best_move is not None:
         board[best_move] = 'O'
         if game_logic.check_winner(board):
             emit('game_over', {'winner': 'O'}, broadcast=True)
         elif '' not in board:
             emit('game_over', {'winner': 'Empate'}, broadcast=True)
+
+    emit('update_board', {'board': board}, broadcast=True)
 
 @socketio.on('restart_game')
 def handle_restart_game():
